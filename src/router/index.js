@@ -8,11 +8,6 @@ const routes = [
     component: () => import('../views/HomeView.vue')
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
-  },
-  {
     path: '/register',
     name: 'register',
     component: () => import('../views/RegisterView.vue')
@@ -28,6 +23,21 @@ const routes = [
     component: () => import('../views/FeedView.vue'),
     meta: {
       requiresAuth: true,
+    }
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/AdminView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+    beforeEnter: (to, from, next) => {
+      if (isAdmin()) {
+        next();
+      } else {
+        next('/feed');
+      }
     }
   }
 ]
@@ -50,11 +60,11 @@ const getCurrentUser = () => {
   })
 }
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if(await getCurrentUser()){
+    if (await getCurrentUser()) {
       next();
-    }else{
+    } else {
       alert("you dont hvae acccess");
       next("/");
     }
@@ -62,5 +72,14 @@ router.beforeEach(async(to, from, next) => {
     next();
   }
 })
+
+const isAdmin = () => {
+  const user = getAuth().currentUser;
+  if (user && user.email === 'admin@admin.com') {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 export default router

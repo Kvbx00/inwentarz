@@ -1,11 +1,10 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-link to="/feed">Feed</router-link>"
-    <router-link to="/login">Login</router-link>
-    <router-link to="/register">Register</router-link>
-    <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
+    <router-link to="/feed">Feed</router-link> |
+    <router-link to="/login">Zaloguj się</router-link> |
+    <router-link to="/register">Zarejestruj</router-link>
+    <button @click="handleSignOut" v-if="isLoggedIn">Wyloguj się</button>
   </nav>
   <router-view />
 </template>
@@ -48,6 +47,7 @@ const handleSignOut = () => {
 
 nav {
   padding: 30px;
+  text-align: right;
 }
 
 nav a {

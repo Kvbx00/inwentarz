@@ -20,8 +20,13 @@ const errMsg = ref();
 const login = () => {
     signInWithEmailAndPassword(auth, email.value, password.value)
         .then(() => {
-            console.log("Zalogowano się pomyślnie!");
-            router.push('/feed')
+            if (email.value === "admin@admin.com") {
+                console.log("Zalogowano się jako admin!");
+                router.push('/admin');
+            } else {
+                console.log("Zalogowano się jako użytkownik zwykły!");
+                router.push('/feed');
+            }
         })
         .catch((error) => {
             console.log(error.code);
